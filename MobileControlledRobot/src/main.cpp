@@ -1,7 +1,7 @@
 
 #include <Arduino.h>
 
-//LED Config
+//LED Config: ESP32 GPIOs 4,5,18 for LEDs and GPIO 19 for buzzer
 int led1 = 4;
 int led2 = 5;
 int led3 = 18;
