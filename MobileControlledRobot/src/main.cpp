@@ -14,7 +14,7 @@ int buzzer = 19;
 #define G4 392
 #define A4 440
 
-// Twinkle Twinkle melody
+// Twinkle Twinkle melody Sound and LED pattern
 int melody[] = {
   C4,C4,G4,G4,A4,A4,G4,
   F4,F4,E4,E4,D4,D4,C4,
