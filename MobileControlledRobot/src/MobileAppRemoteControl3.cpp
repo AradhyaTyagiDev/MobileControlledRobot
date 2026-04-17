@@ -9,10 +9,11 @@
 ✔ Over-steering → controlled steering curve
 */
 
+#include <Arduino.h>
+#include <DabbleESP32.h>
+
 #define CUSTOM_SETTINGS
 #define INCLUDE_GAMEPAD_MODULE
-
-#include <DabbleESP32.h>
 
 /* Motor Pins */
 

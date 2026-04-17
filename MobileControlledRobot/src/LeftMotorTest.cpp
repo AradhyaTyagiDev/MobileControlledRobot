@@ -1,18 +1,27 @@
+#include <Arduino.h>
+
 #define PWMB 5
 #define BIN1 22
 #define BIN2 23
 #define STBY 4
 
+// PWM config
+#define PWM_CHANNEL 0
+#define PWM_FREQ 1000
+#define PWM_RESOLUTION 8
+
 int speedValue = 150;
 
 void setup() {
-
   Serial.begin(115200);
 
-  pinMode(PWMB, OUTPUT);
   pinMode(BIN1, OUTPUT);
   pinMode(BIN2, OUTPUT);
   pinMode(STBY, OUTPUT);
+
+  // Setup PWM for ESP32
+  ledcSetup(PWM_CHANNEL, PWM_FREQ, PWM_RESOLUTION);
+  ledcAttachPin(PWMB, PWM_CHANNEL);
 
   digitalWrite(STBY, HIGH);   // Enable driver
 
@@ -21,6 +30,10 @@ void setup() {
   Serial.println("B = Backward");
   Serial.println("S = Stop");
   Serial.println("0-9 = Speed Control");
+}
+
+void setSpeed(int speed) {
+  ledcWrite(PWM_CHANNEL, speed);  // 0–255
 }
 
 void loop() {
@@ -32,39 +45,31 @@ void loop() {
     if (cmd == 'F') {
       digitalWrite(BIN1, HIGH);
       digitalWrite(BIN2, LOW);
-      analogWrite(PWMB, speedValue);
+      setSpeed(speedValue);
       Serial.println("Forward");
     }
 
-    if (cmd == 'B') {
+    else if (cmd == 'B') {
       digitalWrite(BIN1, LOW);
       digitalWrite(BIN2, HIGH);
-      analogWrite(PWMB, speedValue);
+      setSpeed(speedValue);
       Serial.println("Backward");
     }
 
-    if (cmd == 'S') {
-      analogWrite(PWMB, 0);
+    else if (cmd == 'S') {
+      setSpeed(0);
       Serial.println("Stop");
     }
 
-    if (cmd >= '0' && cmd <= '9') {
+    else if (cmd >= '0' && cmd <= '9') {
 
       int level = cmd - '0';
       speedValue = map(level, 0, 9, 0, 255);
 
-      analogWrite(PWMB, speedValue);
+      setSpeed(speedValue);
 
       Serial.print("Speed set to: ");
       Serial.println(speedValue);
     }
   }
 }
-
-/*
-Key	Action
-F	Forward
-B	Backward
-S	Stop
-0–9	Speed control
-*/

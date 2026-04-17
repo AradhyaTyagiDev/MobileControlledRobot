@@ -1,11 +1,14 @@
-
 #include <Arduino.h>
 
-//LED Config: ESP32 GPIOs 4,5,18 for LEDs and GPIO 19 for buzzer
+// LED Config
 int led1 = 4;
 int led2 = 5;
 int led3 = 18;
 int buzzer = 19;
+
+// PWM config for buzzer
+#define BUZZER_CHANNEL 0
+#define PWM_RESOLUTION 8
 
 // Musical notes
 #define C4 262
@@ -15,7 +18,7 @@ int buzzer = 19;
 #define G4 392
 #define A4 440
 
-// Twinkle Twinkle melody Sound and LED pattern.
+// Melody
 int melody[] = {
   C4,C4,G4,G4,A4,A4,G4,
   F4,F4,E4,E4,D4,D4,C4,
@@ -40,24 +43,30 @@ int duration[] = {
 
 int notes = sizeof(melody) / sizeof(melody[0]);
 
+// LED logic
 void playLED(int note){
-
   digitalWrite(led1, LOW);
   digitalWrite(led2, LOW);
   digitalWrite(led3, LOW);
 
-  // Low notes
   if(note <= D4){
     digitalWrite(led1, HIGH);
   }
-  // Medium notes
   else if(note <= G4){
     digitalWrite(led2, HIGH);
   }
-  // High notes
   else{
     digitalWrite(led3, HIGH);
   }
+}
+
+// ESP32 tone replacement
+void playTone(int frequency) {
+  ledcWriteTone(BUZZER_CHANNEL, frequency);
+}
+
+void stopTone() {
+  ledcWriteTone(BUZZER_CHANNEL, 0);
 }
 
 void setup() {
@@ -65,7 +74,10 @@ void setup() {
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);
   pinMode(led3, OUTPUT);
-  pinMode(buzzer, OUTPUT);
+
+  // Setup buzzer PWM
+  ledcSetup(BUZZER_CHANNEL, 2000, PWM_RESOLUTION); // freq doesn't matter much
+  ledcAttachPin(buzzer, BUZZER_CHANNEL);
 
   Serial.begin(115200);
   Serial.println("Twinkle Twinkle LED Dance 🎵");
@@ -73,14 +85,14 @@ void setup() {
 
 void loop() {
 
-  for(int i=0;i<notes;i++){
+  for(int i = 0; i < notes; i++){
 
     playLED(melody[i]);
 
-    tone(buzzer, melody[i]);
+    playTone(melody[i]);     // ✅ replaced tone()
     delay(duration[i]);
 
-    noTone(buzzer);
+    stopTone();              // ✅ replaced noTone()
     delay(50);
   }
 

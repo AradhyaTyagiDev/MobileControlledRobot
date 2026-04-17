@@ -18,6 +18,9 @@ Problem in real robots:
 
 ///SOLUTION OF ABOVE PROBLEMS:
 
+#include <Arduino.h>
+#include <DabbleESP32.h>
+
 #define CUSTOM_SETTINGS
 #define INCLUDE_GAMEPAD_MODULE
 

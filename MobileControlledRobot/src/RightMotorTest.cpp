@@ -1,7 +1,14 @@
+#include <Arduino.h>
+
 #define PWMA 18
 #define AIN1 19
 #define AIN2 21
 #define STBY 4
+
+// PWM config
+#define PWM_CHANNEL 0
+#define PWM_FREQ 1000
+#define PWM_RESOLUTION 8
 
 int speedValue = 150;
 
@@ -9,10 +16,13 @@ void setup() {
 
   Serial.begin(115200);
 
-  pinMode(PWMA, OUTPUT);
   pinMode(AIN1, OUTPUT);
   pinMode(AIN2, OUTPUT);
   pinMode(STBY, OUTPUT);
+
+  // Setup PWM for ESP32
+  ledcSetup(PWM_CHANNEL, PWM_FREQ, PWM_RESOLUTION);
+  ledcAttachPin(PWMA, PWM_CHANNEL);
 
   digitalWrite(STBY, HIGH);   // Enable driver
 
@@ -23,6 +33,26 @@ void setup() {
   Serial.println("0-9 = Speed Control");
 }
 
+void setSpeed(int speed) {
+  ledcWrite(PWM_CHANNEL, speed);  // 0–255
+}
+
+void moveForward() {
+  digitalWrite(AIN1, HIGH);
+  digitalWrite(AIN2, LOW);
+  setSpeed(speedValue);
+}
+
+void moveBackward() {
+  digitalWrite(AIN1, LOW);
+  digitalWrite(AIN2, HIGH);
+  setSpeed(speedValue);
+}
+
+void stopMotor() {
+  setSpeed(0);
+}
+
 void loop() {
 
   if (Serial.available()) {
@@ -30,41 +60,29 @@ void loop() {
     char cmd = Serial.read();
 
     if (cmd == 'F') {
-      digitalWrite(AIN1, HIGH);
-      digitalWrite(AIN2, LOW);
-      analogWrite(PWMA, speedValue);
+      moveForward();
       Serial.println("Forward");
     }
 
-    if (cmd == 'B') {
-      digitalWrite(AIN1, LOW);
-      digitalWrite(AIN2, HIGH);
-      analogWrite(PWMA, speedValue);
+    else if (cmd == 'B') {
+      moveBackward();
       Serial.println("Backward");
     }
 
-    if (cmd == 'S') {
-      analogWrite(PWMA, 0);
+    else if (cmd == 'S') {
+      stopMotor();
       Serial.println("Stop");
     }
 
-    if (cmd >= '0' && cmd <= '9') {
+    else if (cmd >= '0' && cmd <= '9') {
 
       int level = cmd - '0';
       speedValue = map(level, 0, 9, 0, 255);
 
-      analogWrite(PWMA, speedValue);
+      setSpeed(speedValue);
 
       Serial.print("Speed set to: ");
       Serial.println(speedValue);
     }
   }
 }
-
-/*
-Key	Action
-F	Forward
-B	Backward
-S	Stop
-0–9	Speed control
-*/
