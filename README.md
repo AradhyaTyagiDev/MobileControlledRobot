@@ -7,8 +7,6 @@ I made this project to learn:
 - ESP32 programming
 - Robot movement
 - Real world problem solving
-  
----
 
 ## 🚀 What this robot can do
 
@@ -17,8 +15,6 @@ I made this project to learn:
 - Turn Left ⬅️
 - Turn Right ➡️
 - Stop 🛑
-
----
 
 ## 🧠 Idea behind this
 
@@ -30,8 +26,6 @@ I wanted to build something which can:
 Later I want to improve it so that:
 - It can take decisions itself
 - It becomes a smart robot (AI based)
-
----
 
 ## 🔧 Components Used
 
@@ -47,8 +41,6 @@ Later I want to improve it so that:
 
 **Mobile App** Dabble (As Remote)
 
----
-
 ## ⚠️ Important Learning (Mistakes I did)
 
 - ❌ Directly connected ECHO to ESP32 → **Wrong (5V issue)**
@@ -60,8 +52,6 @@ Later I want to improve it so that:
 - ❌ Wires loose → robot not working properly  
 - ✅ Tight connections → stable system
 
----
-
 ## 😅 Challenges I faced
 
 - ESP32 pin confusion
@@ -70,16 +60,12 @@ Later I want to improve it so that:
 - Robot moving in wrong direction
 - Wiring mess
 
----
-
 ## 🧪 What I improved
 
 - Better structure (modular code)
 - Clean sensor handling
 - Stable readings
 - Better motor control logic
-
----
 
 ## 📱 Mobile Control
 
@@ -91,16 +77,12 @@ Future:
 - Real-time control
 - Voice control maybe 😄
 
----
-
 ## 🧑‍💻 Why I built this
 
 I want to:
 - Learn robotics deeply
 - Build real products
 - Eventually create smart systems
-
----
 
 ## ❤️ Final Thoughts
 
@@ -110,19 +92,18 @@ But I learned a lot while building it.
 I believe:
 > "Building small things leads to big innovations."
 
----
+## 📸 Demo
 
-## 📸 Demo (Coming Soon)
+▶️
+<a href="https://www.linkedin.com/posts/aradhya-tyagi-3162a73b7_robotics-esp32-iot-ugcPost-7449109218793775105-OZz9">
+  <img src="assets/FinalRobot.jpg" width="300"/>
+</a>
 
-▶️ [Watch Demo on LinkedIn](https://www.linkedin.com/posts/aradhya-tyagi-3162a73b7_robotics-esp32-iot-ugcPost-7449109218793775105-OZz9)
-
----
+https://www.youtube.com/shorts/Np4XAkKZTSE
 
 ## 🤝 Contributions
 
 This is my personal learning project, but suggestions are welcome.
-
----
 
 ## 📌 Author
 
