@@ -1,6 +1,7 @@
 
 #include <Arduino.h>
 
+//LED Config
 int led1 = 4;
 int led2 = 5;
 int led3 = 18;
